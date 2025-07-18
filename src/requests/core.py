@@ -4,7 +4,7 @@ import httpx
 
 from .tls import TLS_CONTEXT_HTTP2
 from .logger import get_logger
-from .validation import ValidationError, validate
+from type_enforcer import ValidationError, enforce
 
 logger = get_logger(__name__)
 
@@ -44,7 +44,7 @@ class TypedResponse(Generic[T]):
         """
         try:
             json_data = response.json()
-            validated_data = validate(json_data, expected_type)
+            validated_data = enforce(json_data, expected_type)
             return cls(response, validated_data)
         except ValidationError as e:
             logger.error(f"Response validation failed: {e}")
