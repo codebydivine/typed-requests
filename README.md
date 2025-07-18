@@ -62,72 +62,84 @@ class UsersListResponse(TypedDict):
     total: int
     page: int
 
-@dataclass
-class PostResponse:
-    id: int
-    title: str
-    content: str
-    author_id: int
-
 # Basic untyped request
 response = await networking_manager.get("https://api.example.com/users")
+# >> <Response [200 OK]>
 print(response.status_code)
+# >> 200
 print(response.json())
+# >> {'users': [{'id': 1, 'name': 'Alice', 'email': 'alice@example.com', 'is_active': True}], 'total': 1, 'page': 1}
 
 # Type-safe request with validation
-try:
-    typed_response = await networking_manager.get(
-        "https://api.example.com/users",
-        expected_type=UsersListResponse
-    )
-    # typed_response.data is now validated and typed
-    users = typed_response.data["users"]
-    for user in users:
-        print(f"User: {user['name']} ({user['email']})")
-except ValidationError as e:
-    print(f"Response validation failed: {e}")
+typed_response = await networking_manager.get(
+    "https://api.example.com/users",
+    expected_type=UsersListResponse
+)
+# >> TypedResponse containing validated data
 
-# POST request with type validation
+# Access validated and typed data
+users = typed_response.data["users"]
+for user in users:
+    print(f"User: {user['name']} ({user['email']})")
+# >> User: Alice (alice@example.com)
+
+# POST request with JSON data
 post_data = {
     "title": "My New Post",
     "content": "This is the content of my post",
     "author_id": 123
 }
 
-try:
-    post_response = await networking_manager.post(
-        "https://api.example.com/posts",
-        json=post_data,
-        expected_type=PostResponse
-    )
-    # post_response.data is now a validated PostResponse dataclass
-    print(f"Created post: {post_response.data.title}")
-except ValidationError as e:
-    print(f"Response validation failed: {e}")
+response = await networking_manager.post(
+    "https://api.example.com/posts",
+    json=post_data
+)
+# >> <Response [201 Created]>
 
-# Error handling for API failures
+# Error handling for validation failures
 try:
     response = await networking_manager.get(
-        "https://api.example.com/nonexistent",
-        expected_type=UserResponse
+        "https://api.example.com/malformed",
+        expected_type=UsersListResponse
     )
-except httpx.HTTPStatusError as e:
-    print(f"HTTP error: {e.response.status_code}")
 except ValidationError as e:
-    print(f"Validation error: {e}")
+    print(e)
+# >> users[0].id: Expected int, got str
 
-# Using with context manager for lifecycle management
+# Error handling for HTTP failures
+try:
+    response = await networking_manager.get("https://api.example.com/notfound")
+except Exception as e:
+    print(f"Request failed: {e}")
+# >> Request failed: 404 Client Error: Not Found
+
+# Custom headers and timeout
+response = await networking_manager.get(
+    "https://api.example.com/protected",
+    headers={"Authorization": "Bearer token123"},
+    timeout=30.0
+)
+
+# Different HTTP methods
+response = await networking_manager.post("https://api.example.com/data", json={"key": "value"})
+response = await networking_manager.put("https://api.example.com/data/1", json={"key": "updated"})
+response = await networking_manager.patch("https://api.example.com/data/1", json={"key": "patched"})
+response = await networking_manager.delete("https://api.example.com/data/1")
+
+# Using with custom NetworkingManager instance
+from requests import NetworkingManager
+
 async def main():
-    await networking_manager.startup()
+    manager = NetworkingManager()
+    await manager.startup()
     try:
-        # Make your requests here
-        response = await networking_manager.get(
+        response = await manager.get(
             "https://api.example.com/users",
             expected_type=UsersListResponse
         )
         print(f"Got {len(response.data['users'])} users")
     finally:
-        await networking_manager.shutdown()
+        await manager.shutdown()
 
 if __name__ == "__main__":
     asyncio.run(main())
