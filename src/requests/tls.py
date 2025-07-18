@@ -1,28 +1,28 @@
 import random
 import ssl
+from typing import List
 
 
 def _create_ssl_context(use_http2: bool, disable_tls_1_3: bool) -> ssl.SSLContext:
-    ssl_context = ssl.create_default_context()
+    """Create SSL context with specified configuration."""
+    context = ssl.create_default_context()
 
+    # Configure ALPN protocols
     if use_http2:
-        ssl_context.set_alpn_protocols(["h2", "http/1.1"])
+        context.set_alpn_protocols(["h2", "http/1.1"])
 
-    if disable_tls_1_3:
-        ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
-        ssl_context.maximum_version = ssl.TLSVersion.TLSv1_2
-    else:
-        ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
-        ssl_context.maximum_version = ssl.TLSVersion.TLSv1_3
+    # Configure TLS versions
+    context.minimum_version = ssl.TLSVersion.TLSv1_2
+    context.maximum_version = ssl.TLSVersion.TLSv1_2 if disable_tls_1_3 else ssl.TLSVersion.TLSv1_3
     
-    # Shuffle the ciphersuites
-    ciphersuites = ssl_context.get_ciphers()
-    random.shuffle(ciphersuites)
-    ssl_context.set_ciphers(':'.join(cipher['name'] for cipher in ciphersuites))
+    # Randomize cipher suites for security
+    ciphers: List[dict] = context.get_ciphers()
+    random.shuffle(ciphers)
+    context.set_ciphers(':'.join(cipher['name'] for cipher in ciphers))
     
-    return ssl_context
+    return context
 
-# Create pre-defined SSL contexts
+# Pre-defined SSL contexts for common configurations
 TLS_CONTEXT_HTTP2 = _create_ssl_context(use_http2=True, disable_tls_1_3=False)
 TLS_CONTEXT_HTTP1 = _create_ssl_context(use_http2=False, disable_tls_1_3=False)
 TLS_CONTEXT_HTTP2_NO_TLS13 = _create_ssl_context(use_http2=True, disable_tls_1_3=True)
