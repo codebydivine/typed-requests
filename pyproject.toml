@@ -10,7 +10,6 @@ authors = [
 ]
 description = "A type-safe HTTP client library with validation and detailed error reporting."
 readme = "README.md"
-license = { file="LICENSE" }
 requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
