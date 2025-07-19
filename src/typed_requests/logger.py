@@ -5,7 +5,7 @@ ENABLE_DEBUG = False
 
 
 class MockLogger:
-    """Lightweight logger for divine-requests."""
+    """Lightweight logger for divine-typed-requests."""
 
     __slots__ = ("name",)
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup script for pre-commit hooks
 
-echo "Setting up pre-commit hooks for divine-requests..."
+echo "Setting up pre-commit hooks for divine-typed-requests..."
 
 # Install dev dependencies (including pre-commit)
 echo "Installing dev dependencies..."

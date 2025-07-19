@@ -2,7 +2,7 @@
 Tests for the examples in the examples/ directory.
 
 This test suite ensures that all examples work correctly and demonstrates
-the proper usage patterns for the divine-requests library.
+the proper usage patterns for the divine-typed-requests library.
 """
 
 import asyncio

@@ -95,7 +95,7 @@ class GitHubAPIClient:
         self.base_url = "https://api.github.com"
         self.manager = NetworkingManager()
         self.token = token
-        self.headers = {"Accept": "application/vnd.github.v3+json", "User-Agent": "Divine-Requests-Example/1.0"}
+        self.headers = {"Accept": "application/vnd.github.v3+json", "User-Agent": "divine-typed-requests-Example/1.0"}
 
         if token:
             self.headers["Authorization"] = f"token {token}"

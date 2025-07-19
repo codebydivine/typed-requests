@@ -1,6 +1,6 @@
 # Divine Requests Examples
 
-This directory contains comprehensive examples demonstrating how to use the `divine-requests` library for various real-world scenarios.
+This directory contains comprehensive examples demonstrating how to use the `divine-typed-requests` library for various real-world scenarios.
 
 ## Available Examples
 
@@ -143,12 +143,12 @@ has_more = response.data["has_next"]  # Type: bool
 
 ### Prerequisites
 - Python 3.13+
-- `divine-requests` library installed
+- `divine-typed-requests` library installed
 - `divine-type-enforcer` library (automatically installed as dependency)
 
 ### Installation
 ```bash
-pip install divine-requests
+pip install divine-typed-requests
 ```
 
 ### Running Individual Examples

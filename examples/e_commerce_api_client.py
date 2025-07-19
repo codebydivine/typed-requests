@@ -180,7 +180,7 @@ class ECommerceAPIClient:
         self.manager = NetworkingManager()
         self.api_key = api_key
         self.access_token: str | None = None
-        self.headers = {"Content-Type": "application/json", "User-Agent": "Divine-Requests-ECommerce-Client/1.0"}
+        self.headers = {"Content-Type": "application/json", "User-Agent": "divine-typed-requests-ECommerce-Client/1.0"}
 
         if api_key:
             self.headers["X-API-Key"] = api_key

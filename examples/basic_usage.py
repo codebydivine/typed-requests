@@ -174,7 +174,7 @@ async def custom_headers_example():
     try:
         # Custom headers
         headers = {
-            "User-Agent": "Divine-Requests-Example/1.0",
+            "User-Agent": "divine-typed-requests-Example/1.0",
             "Authorization": "Bearer fake-token-123",
             "X-Custom-Header": "custom-value",
         }
