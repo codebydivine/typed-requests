@@ -14,14 +14,18 @@ T = TypeVar("T")
 class TypedResponse(Generic[T]):
     """A wrapper for HTTP responses with type validation."""
 
-    __slots__ = ("data", "response")
+    __slots__ = ("_data", "response")
 
-    data: T
     response: httpx.Response
 
     def __init__(self, response: httpx.Response, data: T) -> None:
         self.response = response
-        self.data = data
+        self._data = data
+
+    @property
+    def data(self) -> T:
+        """Get the validated response data with proper typing."""
+        return self._data
 
     @classmethod
     def from_response(cls, response: httpx.Response, expected_type: type[T]) -> "TypedResponse[T]":
