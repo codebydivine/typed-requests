@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, overload
 
 import httpx
 from type_enforcer import ValidationError, enforce
@@ -61,6 +61,16 @@ class NetworkingManager:
         else:
             logger.warning("HTTP client not initialized or already closed")
 
+    @overload
+    async def request[T](
+        self, method: str, url: str, *, expected_type: type[T], **kwargs: Any
+    ) -> TypedResponse[T]: ...
+
+    @overload
+    async def request(
+        self, method: str, url: str, *, expected_type: None = None, **kwargs: Any
+    ) -> httpx.Response: ...
+
     async def request[T](
         self, method: str, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
@@ -104,11 +114,31 @@ class NetworkingManager:
             raise
 
     # HTTP method helpers - simplified without repetitive docstrings
+    @overload
+    async def get[T](
+        self, url: str, *, expected_type: type[T], **kwargs: Any
+    ) -> TypedResponse[T]: ...
+
+    @overload
+    async def get(
+        self, url: str, *, expected_type: None = None, **kwargs: Any
+    ) -> httpx.Response: ...
+
     async def get[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a GET request with optional type validation."""
         return await self.request("GET", url, expected_type=expected_type, **kwargs)
+
+    @overload
+    async def post[T](
+        self, url: str, *, expected_type: type[T], **kwargs: Any
+    ) -> TypedResponse[T]: ...
+
+    @overload
+    async def post(
+        self, url: str, *, expected_type: None = None, **kwargs: Any
+    ) -> httpx.Response: ...
 
     async def post[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
