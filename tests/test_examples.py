@@ -11,7 +11,7 @@ import os
 
 # Import example modules
 import sys
-from typing import Any, TypedDict
+from typing import Any, TypedDict, get_type_hints
 from unittest.mock import AsyncMock, MagicMock
 
 import anyio
@@ -584,16 +584,9 @@ class TestExampleExecution:
     @pytest.mark.anyio
     async def test_type_definitions_validity(self):
         """Test that type definitions in examples are valid."""
-        import os
-
         # Import type definitions from api_response_validation
-        import sys
-        from typing import get_type_hints
-
         examples_dir = os.path.join(os.path.dirname(__file__), "..", "examples")
         sys.path.insert(0, examples_dir)
-
-        import importlib.util
 
         spec = importlib.util.spec_from_file_location(
             "api_response_validation", os.path.join(examples_dir, "api_response_validation.py")
