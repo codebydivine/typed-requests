@@ -288,7 +288,6 @@ async def validate_with_mock_data():
 
     # Test with invalid data
     try:
-
         _validate_invalid = enforce(invalid_api_response_data, DexScreenerResponseDict)
         print("❌ ERROR: Invalid data was incorrectly validated!")
     except ValidationError as e:
@@ -405,14 +404,12 @@ async def advanced_validation_example():
     }
 
     try:
-
         validated_token = enforce(valid_token_data, TokenDict)
         print(f"   ✅ Valid token: {validated_token}")
     except ValidationError as e:
         print(f"   ❌ Error validating valid token: {e}")
 
     try:
-
         enforce(invalid_token_data, TokenDict)
         print("   ❌ ERROR: Invalid token was incorrectly validated!")
     except ValidationError as e:
@@ -442,7 +439,6 @@ async def advanced_validation_example():
     }
 
     try:
-
         validated_pair = enforce(minimal_pair_data, PairDict)
         print("   ✅ Minimal pair data validated successfully")
         print(f"      Base token: {validated_pair['baseToken']['symbol']}")

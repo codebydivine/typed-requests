@@ -220,7 +220,6 @@ class TestAdvancedPatterns:
                         raise
                     # Use anyio.sleep for compatibility with both asyncio and trio
                     try:
-
                         await anyio.sleep(0.1)  # Short delay for testing
                     except ImportError:
                         # Fallback to asyncio if anyio not available
@@ -343,7 +342,6 @@ class TestRealWorldPatterns:
     @pytest.mark.anyio
     async def test_pagination_pattern(self):
         """Test pagination handling pattern."""
-
 
         class PaginatedResponse(TypedDict):
             items: list[dict[str, Any]]
@@ -542,7 +540,6 @@ class TestExampleExecution:
         """Test that examples can be imported without errors."""
         # Test importing example modules
         try:
-
             # Add examples directory to path
             examples_dir = os.path.join(os.path.dirname(__file__), "..", "examples")
             sys.path.insert(0, examples_dir)
