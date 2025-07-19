@@ -6,16 +6,18 @@ the proper usage patterns for the divine-requests library.
 """
 
 import asyncio
+import importlib.util
 import os
 
 # Import example modules
 import sys
-from typing import Any
+from typing import Any, TypedDict
 from unittest.mock import AsyncMock, MagicMock
 
+import anyio
 import httpx
 import pytest
-from type_enforcer import ValidationError
+from type_enforcer import ValidationError, enforce
 
 from requests import NetworkingManager, networking_manager
 
@@ -218,7 +220,6 @@ class TestAdvancedPatterns:
                         raise
                     # Use anyio.sleep for compatibility with both asyncio and trio
                     try:
-                        import anyio
 
                         await anyio.sleep(0.1)  # Short delay for testing
                     except ImportError:
@@ -251,13 +252,11 @@ class TestTypeValidationPatterns:
 
     def test_direct_type_validation(self):
         """Test direct type validation with type-enforcer."""
-        from type_enforcer import ValidationError, enforce
 
         # Test valid data
         valid_data = {"id": 1, "name": "Test User", "email": "test@example.com"}
 
         # Define expected type
-        from typing import TypedDict
 
         class UserDict(TypedDict):
             id: int
@@ -281,7 +280,6 @@ class TestTypeValidationPatterns:
     @pytest.mark.anyio
     async def test_api_response_validation(self):
         """Test API response validation pattern."""
-        from typing import TypedDict
 
         # Define API response structure
         class APIResponse(TypedDict):
@@ -313,7 +311,6 @@ class TestTypeValidationPatterns:
     @pytest.mark.anyio
     async def test_validation_error_handling(self):
         """Test validation error handling pattern."""
-        from typing import TypedDict
 
         class StrictResponse(TypedDict):
             required_field: str
@@ -347,7 +344,6 @@ class TestRealWorldPatterns:
     async def test_pagination_pattern(self):
         """Test pagination handling pattern."""
 
-        from typing import TypedDict
 
         class PaginatedResponse(TypedDict):
             items: list[dict[str, Any]]
@@ -546,15 +542,12 @@ class TestExampleExecution:
         """Test that examples can be imported without errors."""
         # Test importing example modules
         try:
-            import os
-            import sys
 
             # Add examples directory to path
             examples_dir = os.path.join(os.path.dirname(__file__), "..", "examples")
             sys.path.insert(0, examples_dir)
 
             # Import modules to check for syntax errors
-            import importlib.util
 
             # Test basic_usage
             spec = importlib.util.spec_from_file_location("basic_usage", os.path.join(examples_dir, "basic_usage.py"))
@@ -631,7 +624,6 @@ class TestExampleIntegration:
     @pytest.mark.anyio
     async def test_full_workflow_integration(self):
         """Test a complete workflow combining multiple patterns."""
-        from typing import TypedDict
 
         # Define types
         class User(TypedDict):

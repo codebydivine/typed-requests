@@ -9,7 +9,7 @@ complex API responses like those from DexScreener or other financial APIs.
 import asyncio
 from typing import Any, TypedDict
 
-from type_enforcer import ValidationError
+from type_enforcer import ValidationError, enforce
 
 from requests import networking_manager
 
@@ -273,7 +273,6 @@ async def validate_with_mock_data():
     # Test with valid data
     try:
         # Use the type-enforcer directly for validation
-        from type_enforcer import enforce
 
         validated_data = enforce(valid_api_response_data, DexScreenerResponseDict)
         print("✅ Valid data structure conforms to DexScreenerResponseDict.")
@@ -289,7 +288,6 @@ async def validate_with_mock_data():
 
     # Test with invalid data
     try:
-        from type_enforcer import enforce
 
         _validate_invalid = enforce(invalid_api_response_data, DexScreenerResponseDict)
         print("❌ ERROR: Invalid data was incorrectly validated!")
@@ -407,7 +405,6 @@ async def advanced_validation_example():
     }
 
     try:
-        from type_enforcer import enforce
 
         validated_token = enforce(valid_token_data, TokenDict)
         print(f"   ✅ Valid token: {validated_token}")
@@ -415,7 +412,6 @@ async def advanced_validation_example():
         print(f"   ❌ Error validating valid token: {e}")
 
     try:
-        from type_enforcer import enforce
 
         enforce(invalid_token_data, TokenDict)
         print("   ❌ ERROR: Invalid token was incorrectly validated!")
@@ -446,7 +442,6 @@ async def advanced_validation_example():
     }
 
     try:
-        from type_enforcer import enforce
 
         validated_pair = enforce(minimal_pair_data, PairDict)
         print("   ✅ Minimal pair data validated successfully")
