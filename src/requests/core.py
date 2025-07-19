@@ -134,11 +134,23 @@ class NetworkingManager:
         """Make a POST request with optional type validation."""
         return await self.request("POST", url, expected_type=expected_type, **kwargs)
 
+    @overload
+    async def put[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
+
+    @overload
+    async def put(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
+
     async def put[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a PUT request with optional type validation."""
         return await self.request("PUT", url, expected_type=expected_type, **kwargs)
+
+    @overload
+    async def delete[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
+
+    @overload
+    async def delete(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
 
     async def delete[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
@@ -146,17 +158,35 @@ class NetworkingManager:
         """Make a DELETE request with optional type validation."""
         return await self.request("DELETE", url, expected_type=expected_type, **kwargs)
 
+    @overload
+    async def head[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
+
+    @overload
+    async def head(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
+
     async def head[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a HEAD request with optional type validation."""
         return await self.request("HEAD", url, expected_type=expected_type, **kwargs)
 
+    @overload
+    async def options[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
+
+    @overload
+    async def options(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
+
     async def options[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make an OPTIONS request with optional type validation."""
         return await self.request("OPTIONS", url, expected_type=expected_type, **kwargs)
+
+    @overload
+    async def patch[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
+
+    @overload
+    async def patch(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
 
     async def patch[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
