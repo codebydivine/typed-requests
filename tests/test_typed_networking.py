@@ -5,7 +5,7 @@ import httpx
 import pytest
 from type_enforcer import ValidationError
 
-from requests.core import TypedResponse
+from divine_requests.core import TypedResponse
 
 
 # Define TypedDict classes outside of module level
