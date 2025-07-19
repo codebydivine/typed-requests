@@ -3,11 +3,12 @@ import traceback
 
 ENABLE_DEBUG = False
 
+
 class MockLogger:
     """Lightweight logger for divine-requests."""
-    
-    __slots__ = ('name',)
-    
+
+    __slots__ = ("name",)
+
     def __init__(self, name: str):
         self.name = name
 
@@ -34,6 +35,7 @@ class MockLogger:
     def warning(self, msg: str, exc_info: bool = False):
         """Log warning message."""
         self._log("WARNING", msg, exc_info)
+
 
 def get_logger(name: str) -> MockLogger:
     """Get a logger for a specific module."""

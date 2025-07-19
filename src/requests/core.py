@@ -1,25 +1,26 @@
-from typing import Any, Generic, Optional, Type, TypeVar, Union, overload
+from typing import Any, Generic, TypeVar
 
 import httpx
 from type_enforcer import ValidationError, enforce
 
-from .tls import TLS_CONTEXT_HTTP2
 from .logger import get_logger
+from .tls import TLS_CONTEXT_HTTP2
 
 logger = get_logger(__name__)
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class TypedResponse(Generic[T]):
     """A wrapper for HTTP responses with type validation."""
-    
-    __slots__ = ('response', 'data')
-    
+
+    __slots__ = ("response", "data")
+
     def __init__(self, response: httpx.Response, data: T):
         self.response = response
         self.data = data
-    
+
     @classmethod
-    def from_response(cls, response: httpx.Response, expected_type: Type[T]) -> 'TypedResponse[T]':
+    def from_response(cls, response: httpx.Response, expected_type: type[T]) -> "TypedResponse[T]":
         """Create a TypedResponse with type validation."""
         try:
             validated_data = enforce(response.json(), expected_type)
@@ -31,15 +32,16 @@ class TypedResponse(Generic[T]):
             logger.error(f"Error processing response: {e}", exc_info=True)
             raise
 
+
 class NetworkingManager:
     """Async HTTP client with type validation support."""
-    
+
     DEFAULT_TIMEOUT = 9
     DEFAULT_USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:130.0) Gecko/20100101 Firefox/130.0"
-    
+
     def __init__(self, tls_context=TLS_CONTEXT_HTTP2, enable_http2: bool = True):
         """Initialize NetworkingManager with TLS context and HTTP/2 setting."""
-        self._client: Optional[httpx.AsyncClient] = None
+        self._client: httpx.AsyncClient | None = None
         self._tls_context = tls_context
         self._enable_http2 = enable_http2
 
@@ -60,22 +62,20 @@ class NetworkingManager:
         else:
             logger.warning("HTTP client not initialized or already closed")
 
-    @overload
-    async def request(self, method: str, url: str, **kwargs: Any) -> httpx.Response: ...
-    
-    @overload
-    async def request(self, method: str, url: str, *, expected_type: Type[T], **kwargs: Any) -> TypedResponse[T]: ...
-    
-    async def request(self, method: str, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def request(
+        self, method: str, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         if self._client is None:
             logger.info("NetworkingManager not started. Calling startup()")
             await self.startup()
-            
+
+        assert self._client is not None, "Client should be initialized after startup"
+
         try:
             # Extract and prepare headers
-            headers = kwargs.pop('headers', {})
+            headers = kwargs.pop("headers", {})
             timeout = kwargs.pop("timeout", self.DEFAULT_TIMEOUT)
-            kwargs.pop('proxy', None)  # Remove proxy if present
+            kwargs.pop("proxy", None)  # Remove proxy if present
             logger.info(f"Requesting {method} {url} with timeout {timeout}")
 
             # Prepare default headers
@@ -87,15 +87,13 @@ class NetworkingManager:
             default_headers.update(headers)
 
             # Make the request
-            response = await self._client.request(
-                method, url, timeout=timeout, headers=default_headers, **kwargs
-            )
+            response = await self._client.request(method, url, timeout=timeout, headers=default_headers, **kwargs)
             response.raise_for_status()
-            
+
             # Return typed response if expected_type is provided
             if expected_type is not None:
                 return TypedResponse.from_response(response, expected_type)
-            
+
             # Warn about deprecated non-typed responses
             logger.warning(
                 "Non-typed responses are deprecated and will be removed in a future version. Please specify an expected_type parameter."
@@ -106,33 +104,48 @@ class NetworkingManager:
             raise
 
     # HTTP method helpers - simplified without repetitive docstrings
-    async def get(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def get(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make a GET request with optional type validation."""
-        return await self.request('GET', url, expected_type=expected_type, **kwargs)
+        return await self.request("GET", url, expected_type=expected_type, **kwargs)
 
-    async def post(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def post(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make a POST request with optional type validation."""
-        return await self.request('POST', url, expected_type=expected_type, **kwargs)
+        return await self.request("POST", url, expected_type=expected_type, **kwargs)
 
-    async def put(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def put(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make a PUT request with optional type validation."""
-        return await self.request('PUT', url, expected_type=expected_type, **kwargs)
+        return await self.request("PUT", url, expected_type=expected_type, **kwargs)
 
-    async def delete(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def delete(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make a DELETE request with optional type validation."""
-        return await self.request('DELETE', url, expected_type=expected_type, **kwargs)
+        return await self.request("DELETE", url, expected_type=expected_type, **kwargs)
 
-    async def head(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def head(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make a HEAD request with optional type validation."""
-        return await self.request('HEAD', url, expected_type=expected_type, **kwargs)
+        return await self.request("HEAD", url, expected_type=expected_type, **kwargs)
 
-    async def options(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def options(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make an OPTIONS request with optional type validation."""
-        return await self.request('OPTIONS', url, expected_type=expected_type, **kwargs)
+        return await self.request("OPTIONS", url, expected_type=expected_type, **kwargs)
 
-    async def patch(self, url: str, *, expected_type: Optional[Type[T]] = None, **kwargs: Any) -> Union[httpx.Response, TypedResponse[T]]:
+    async def patch(
+        self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
+    ) -> httpx.Response | TypedResponse[T]:
         """Make a PATCH request with optional type validation."""
-        return await self.request('PATCH', url, expected_type=expected_type, **kwargs)
+        return await self.request("PATCH", url, expected_type=expected_type, **kwargs)
+
 
 # Global instance for convenience
 networking_manager = NetworkingManager()

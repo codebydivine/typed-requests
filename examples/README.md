@@ -85,14 +85,14 @@ class APIClient:
     def __init__(self, base_url: str):
         self.base_url = base_url
         self.manager = NetworkingManager()
-    
+
     async def __aenter__(self):
         await self.manager.startup()
         return self
-    
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.manager.shutdown()
-    
+
     async def get_user(self, user_id: int) -> UserResponse:
         response = await self.manager.get(
             f"{self.base_url}/users/{user_id}",

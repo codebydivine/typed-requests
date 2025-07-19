@@ -7,15 +7,16 @@ complex API responses like those from DexScreener or other financial APIs.
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Any, TypedDict
 
-from requests import networking_manager
 from type_enforcer import ValidationError
 
+from requests import networking_manager
 
 # ===== Type Definitions for DexScreener API Response Validation =====
 # These TypedDicts define the expected structure and types of the API response.
 # Using TypedDict allows for precise validation of dictionary structures.
+
 
 class TokenDict(TypedDict):
     address: str
@@ -50,7 +51,7 @@ class PriceChangeDict(TypedDict, total=False):
 
 
 class LiquidityDict(TypedDict, total=False):
-    usd: Optional[float]  # Field can be present but None
+    usd: float | None  # Field can be present but None
     base: float
     quote: float
 
@@ -63,19 +64,19 @@ class WebsiteDict(TypedDict):
 class SocialDict(TypedDict, total=False):
     type: str
     url: str
-    label: Optional[str]
+    label: str | None
 
 
 class InfoDict(TypedDict, total=False):
-    imageUrl: Optional[str]
-    websites: Optional[List[WebsiteDict]]
-    socials: Optional[List[SocialDict]]
-    header: Optional[str]
-    openGraph: Optional[str]
+    imageUrl: str | None
+    websites: list[WebsiteDict] | None
+    socials: list[SocialDict] | None
+    header: str | None
+    openGraph: str | None
 
 
 class BoostsDict(TypedDict, total=False):
-    active: Optional[int]
+    active: int | None
 
 
 class PairDict(TypedDict, total=False):
@@ -86,114 +87,111 @@ class PairDict(TypedDict, total=False):
     baseToken: TokenDict
     quoteToken: TokenDict
     priceNative: str
-    priceUsd: Optional[str]
+    priceUsd: str | None
     txns: TxnsPeriodsDict
     volume: VolumeDict
-    priceChange: Optional[PriceChangeDict]
-    liquidity: Optional[LiquidityDict]
-    fdv: Optional[float]
-    marketCap: Optional[float]
-    pairCreatedAt: Optional[int]
-    info: Optional[InfoDict]
-    boosts: Optional[BoostsDict]
-    labels: Optional[List[str]]
-    moonshot: Optional[Dict[str, Any]]
+    priceChange: PriceChangeDict | None
+    liquidity: LiquidityDict | None
+    fdv: float | None
+    marketCap: float | None
+    pairCreatedAt: int | None
+    info: InfoDict | None
+    boosts: BoostsDict | None
+    labels: list[str] | None
+    moonshot: dict[str, Any] | None
 
 
 class DexScreenerResponseDict(TypedDict):
     schemaVersion: str
-    pairs: Optional[List[PairDict]]
-    pair: Optional[PairDict]
+    pairs: list[PairDict] | None
+    pair: PairDict | None
 
 
 # ===== API Client with Type Validation =====
+
 
 class DexScreenerClient:
     """
     A client for interacting with DexScreener API using divine-requests
     with automatic type validation.
     """
-    
+
     def __init__(self):
         self.base_url = "https://api.dexscreener.com/latest"
         self.manager = networking_manager
-    
-    async def get_pairs_by_tokens(self, token_addresses: List[str]) -> DexScreenerResponseDict:
+
+    async def get_pairs_by_tokens(self, token_addresses: list[str]) -> DexScreenerResponseDict:
         """
         Get token pairs by token addresses with automatic type validation.
-        
+
         Args:
             token_addresses: List of token addresses
-            
+
         Returns:
             DexScreenerResponseDict: Validated response data
-            
+
         Raises:
             ValidationError: If response doesn't match expected structure
         """
         try:
             # Join addresses with commas
             addresses = ",".join(token_addresses)
-            
+
             # Make request with automatic type validation
             response = await self.manager.get(
-                f"{self.base_url}/dex/tokens/{addresses}",
-                expected_type=DexScreenerResponseDict
+                f"{self.base_url}/dex/tokens/{addresses}", expected_type=DexScreenerResponseDict
             )
-            
+
             return response.data
-            
+
         except ValidationError as e:
             print(f"API response validation failed: {e}")
             raise
         except Exception as e:
             print(f"Failed to fetch token pairs: {e}")
             raise
-    
+
     async def get_pair_by_address(self, pair_address: str) -> DexScreenerResponseDict:
         """
         Get a specific pair by its address with automatic type validation.
-        
+
         Args:
             pair_address: The pair address
-            
+
         Returns:
             DexScreenerResponseDict: Validated response data
         """
         try:
             response = await self.manager.get(
-                f"{self.base_url}/dex/pairs/{pair_address}",
-                expected_type=DexScreenerResponseDict
+                f"{self.base_url}/dex/pairs/{pair_address}", expected_type=DexScreenerResponseDict
             )
-            
+
             return response.data
-            
+
         except ValidationError as e:
             print(f"API response validation failed: {e}")
             raise
         except Exception as e:
             print(f"Failed to fetch pair: {e}")
             raise
-    
+
     async def search_pairs(self, query: str) -> DexScreenerResponseDict:
         """
         Search for pairs with automatic type validation.
-        
+
         Args:
             query: Search query
-            
+
         Returns:
             DexScreenerResponseDict: Validated response data
         """
         try:
             response = await self.manager.get(
-                f"{self.base_url}/dex/search",
-                params={"q": query},
-                expected_type=DexScreenerResponseDict
+                f"{self.base_url}/dex/search", params={"q": query}, expected_type=DexScreenerResponseDict
             )
-            
+
             return response.data
-            
+
         except ValidationError as e:
             print(f"API response validation failed: {e}")
             raise
@@ -204,10 +202,11 @@ class DexScreenerClient:
 
 # ===== Example Usage Functions =====
 
+
 async def validate_with_mock_data():
     """Example using mock data to demonstrate type validation."""
     print("=== Validating Mock API Response Data ===")
-    
+
     # Example valid data structure
     valid_api_response_data = {
         "schemaVersion": "1.0.0",
@@ -241,12 +240,12 @@ async def validate_with_mock_data():
                 "info": {
                     "imageUrl": "https://example.com/token.png",
                     "websites": [{"label": "Homepage", "url": "https://example.com"}],
-                    "socials": [{"type": "twitter", "url": "https://twitter.com/example"}]
-                }
+                    "socials": [{"type": "twitter", "url": "https://twitter.com/example"}],
+                },
             }
-        ]
+        ],
     }
-    
+
     # Example invalid data
     invalid_api_response_data = {
         "schemaVersion": "1.0.0",
@@ -268,84 +267,85 @@ async def validate_with_mock_data():
                 },
                 "priceNative": "1500.5",
             }
-        ]
+        ],
     }
-    
+
     # Test with valid data
     try:
         # Use the type-enforcer directly for validation
         from type_enforcer import enforce
+
         validated_data = enforce(valid_api_response_data, DexScreenerResponseDict)
         print("✅ Valid data structure conforms to DexScreenerResponseDict.")
-        
+
         # Access validated data safely
         if validated_data["pairs"] and validated_data["pairs"][0]["baseToken"]:
             print(f"   Base Token Symbol: {validated_data['pairs'][0]['baseToken']['symbol']}")
         if validated_data["pairs"] and validated_data["pairs"][0]["liquidity"]:
             print(f"   Liquidity (USD): {validated_data['pairs'][0]['liquidity'].get('usd')}")
-            
+
     except ValidationError as e:
         print(f"❌ Error validating valid data: {e}")
-    
+
     # Test with invalid data
     try:
         from type_enforcer import enforce
-        validate_invalid = enforce(invalid_api_response_data, DexScreenerResponseDict)
+
+        _validate_invalid = enforce(invalid_api_response_data, DexScreenerResponseDict)
         print("❌ ERROR: Invalid data was incorrectly validated!")
     except ValidationError as e:
-        print(f"✅ Successfully caught validation error in invalid data:")
+        print("✅ Successfully caught validation error in invalid data:")
         print(f"   {e}")
 
 
 async def real_api_request_example():
     """Example of making real API requests with type validation."""
     print("\n=== Real API Request Example ===")
-    
+
     client = DexScreenerClient()
-    
+
     # Initialize the networking manager
     await networking_manager.startup()
-    
+
     try:
         # Example 1: Search for popular tokens
         print("1. Searching for Ethereum pairs...")
         try:
             # Search for Ethereum-related pairs
             search_results = await client.search_pairs("ETH")
-            
+
             if search_results["pairs"]:
                 print(f"   Found {len(search_results['pairs'])} pairs")
                 for i, pair in enumerate(search_results["pairs"][:3]):  # Show first 3
-                    print(f"   {i+1}. {pair['baseToken']['symbol']}/{pair['quoteToken']['symbol']}")
+                    print(f"   {i + 1}. {pair['baseToken']['symbol']}/{pair['quoteToken']['symbol']}")
                     print(f"      Price: ${pair['priceUsd']}")
                     print(f"      Volume 24h: ${pair['volume'].get('h24', 0):,.2f}")
             else:
                 print("   No pairs found")
-                
+
         except Exception as e:
             print(f"   Search request failed: {e}")
-        
+
         # Example 2: Get specific token information
         print("\n2. Getting WETH token information...")
         try:
             # WETH token address on Ethereum
             weth_address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-            
+
             token_data = await client.get_pairs_by_tokens([weth_address])
-            
+
             if token_data["pairs"]:
                 print(f"   Found {len(token_data['pairs'])} pairs for WETH")
                 # Show top pair by volume
-                top_pair = max(token_data["pairs"], 
-                             key=lambda p: p['volume'].get('h24', 0))
+                top_pair = max(token_data["pairs"], key=lambda p: p["volume"].get("h24", 0))
                 print(f"   Top pair: {top_pair['baseToken']['symbol']}/{top_pair['quoteToken']['symbol']}")
                 print(f"   24h Volume: ${top_pair['volume'].get('h24', 0):,.2f}")
             else:
                 print("   No pairs found for WETH")
-                
+
         except Exception as e:
             print(f"   Token request failed: {e}")
-        
+
     finally:
         # Clean up
         await networking_manager.shutdown()
@@ -354,11 +354,11 @@ async def real_api_request_example():
 async def error_handling_example():
     """Example of handling various error scenarios."""
     print("\n=== Error Handling Example ===")
-    
+
     client = DexScreenerClient()
-    
+
     await networking_manager.startup()
-    
+
     try:
         # Example 1: Invalid token address
         print("1. Testing with invalid token address...")
@@ -370,7 +370,7 @@ async def error_handling_example():
             print(f"   ✅ Validation error caught: {e}")
         except Exception as e:
             print(f"   ✅ Request error caught: {type(e).__name__}: {e}")
-        
+
         # Example 2: Network timeout
         print("\n2. Testing with timeout...")
         try:
@@ -379,12 +379,12 @@ async def error_handling_example():
                 "https://api.dexscreener.com/latest/dex/search",
                 params={"q": "ETH"},
                 timeout=0.001,  # 1ms timeout - should fail
-                expected_type=DexScreenerResponseDict
+                expected_type=DexScreenerResponseDict,
             )
             print(f"   Unexpected success: {response}")
         except Exception as e:
             print(f"   ✅ Timeout error caught: {type(e).__name__}: {e}")
-        
+
     finally:
         await networking_manager.shutdown()
 
@@ -392,41 +392,39 @@ async def error_handling_example():
 async def advanced_validation_example():
     """Example of advanced type validation features."""
     print("\n=== Advanced Validation Example ===")
-    
+
     # Example: Validating sub-structures
     print("1. Validating sub-structures...")
-    
+
     # Valid token data
-    valid_token_data = {
-        "address": "0x111...",
-        "name": "Sub Token",
-        "symbol": "SUB"
-    }
-    
+    valid_token_data = {"address": "0x111...", "name": "Sub Token", "symbol": "SUB"}
+
     # Invalid token data
     invalid_token_data = {
         "address": "0x222...",
         "name": 123,  # name should be string
-        "symbol": "SUB"
+        "symbol": "SUB",
     }
-    
+
     try:
         from type_enforcer import enforce
+
         validated_token = enforce(valid_token_data, TokenDict)
         print(f"   ✅ Valid token: {validated_token}")
     except ValidationError as e:
         print(f"   ❌ Error validating valid token: {e}")
-    
+
     try:
         from type_enforcer import enforce
+
         enforce(invalid_token_data, TokenDict)
         print("   ❌ ERROR: Invalid token was incorrectly validated!")
     except ValidationError as e:
         print(f"   ✅ Successfully caught validation error in invalid token: {e}")
-    
+
     # Example: Optional field handling
     print("\n2. Testing optional field handling...")
-    
+
     minimal_pair_data = {
         "chainId": "ethereum",
         "dexId": "uniswap",
@@ -444,13 +442,14 @@ async def advanced_validation_example():
         },
         "priceNative": "1500.5",
         "txns": {},
-        "volume": {}
+        "volume": {},
     }
-    
+
     try:
         from type_enforcer import enforce
+
         validated_pair = enforce(minimal_pair_data, PairDict)
-        print(f"   ✅ Minimal pair data validated successfully")
+        print("   ✅ Minimal pair data validated successfully")
         print(f"      Base token: {validated_pair['baseToken']['symbol']}")
         print(f"      Quote token: {validated_pair['quoteToken']['symbol']}")
     except ValidationError as e:
@@ -459,20 +458,21 @@ async def advanced_validation_example():
 
 # ===== Main Example Function =====
 
+
 async def main():
     """Run all API response validation examples."""
     print("Divine Requests Library - API Response Validation Examples")
     print("=" * 65)
-    
+
     try:
         await validate_with_mock_data()
         await real_api_request_example()
         await error_handling_example()
         await advanced_validation_example()
-        
+
         print("\n" + "=" * 65)
         print("All API response validation examples completed!")
-        
+
     except Exception as e:
         print(f"Error in main: {e}")
 

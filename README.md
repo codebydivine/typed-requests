@@ -2,7 +2,7 @@
 
 A type-safe HTTP client library for Python 3.13+ with validation and detailed error reporting.
 
-This library provides a clean, efficient way to make HTTP requests with automatic type validation, 
+This library provides a clean, efficient way to make HTTP requests with automatic type validation,
 ensuring that your API responses match the expected structure and types before processing them.
 
 ## Features
