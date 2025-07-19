@@ -23,7 +23,7 @@ classifiers = [
 ]
 dependencies = [
     "divine-type-enforcer==0.1.1",
-    "httpx>=0.24.0",
+    "httpx[http2]>=0.24.0",
 ]
 
 [project.optional-dependencies]
