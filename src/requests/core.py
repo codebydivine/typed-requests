@@ -62,14 +62,10 @@ class NetworkingManager:
             logger.warning("HTTP client not initialized or already closed")
 
     @overload
-    async def request[T](
-        self, method: str, url: str, *, expected_type: type[T], **kwargs: Any
-    ) -> TypedResponse[T]: ...
+    async def request[T](self, method: str, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
 
     @overload
-    async def request(
-        self, method: str, url: str, *, expected_type: None = None, **kwargs: Any
-    ) -> httpx.Response: ...
+    async def request(self, method: str, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
 
     async def request[T](
         self, method: str, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
@@ -115,14 +111,10 @@ class NetworkingManager:
 
     # HTTP method helpers - simplified without repetitive docstrings
     @overload
-    async def get[T](
-        self, url: str, *, expected_type: type[T], **kwargs: Any
-    ) -> TypedResponse[T]: ...
+    async def get[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
 
     @overload
-    async def get(
-        self, url: str, *, expected_type: None = None, **kwargs: Any
-    ) -> httpx.Response: ...
+    async def get(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
 
     async def get[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
@@ -131,14 +123,10 @@ class NetworkingManager:
         return await self.request("GET", url, expected_type=expected_type, **kwargs)
 
     @overload
-    async def post[T](
-        self, url: str, *, expected_type: type[T], **kwargs: Any
-    ) -> TypedResponse[T]: ...
+    async def post[T](self, url: str, *, expected_type: type[T], **kwargs: Any) -> TypedResponse[T]: ...
 
     @overload
-    async def post(
-        self, url: str, *, expected_type: None = None, **kwargs: Any
-    ) -> httpx.Response: ...
+    async def post(self, url: str, *, expected_type: None = None, **kwargs: Any) -> httpx.Response: ...
 
     async def post[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
