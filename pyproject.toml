@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "divine-requests"
-version = "0.1.17"
+version = "0.1.18"
 authors = [
   { name="DIVINE", email="admin@divine.sh" },
 ]
@@ -121,6 +121,7 @@ ignore = [
     "RET503",  # missing explicit return at end of function
     "RUF009",  # do not perform function call in dataclass defaults
     "PT011",   # pytest.raises is too broad
+    "UP046",   # Generic class uses Generic subclass instead of type parameters (conflicts with mypy)
 ]
 
 [tool.ruff.lint.per-file-ignores]
