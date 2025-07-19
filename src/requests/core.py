@@ -14,6 +14,9 @@ class TypedResponse[T]:
 
     __slots__ = ("data", "response")
 
+    data: T
+    response: httpx.Response
+
     def __init__(self, response: httpx.Response, data: T):
         self.response = response
         self.data = data
