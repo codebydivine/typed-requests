@@ -16,7 +16,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError
 
-from requests import NetworkingManager
+from divine_requests import NetworkingManager
 
 # ===== GitHub API Type Definitions =====
 

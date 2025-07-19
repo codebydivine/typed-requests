@@ -11,7 +11,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError, enforce
 
-from requests import networking_manager
+from divine_requests import networking_manager
 
 # ===== Type Definitions for DexScreener API Response Validation =====
 # These TypedDicts define the expected structure and types of the API response.

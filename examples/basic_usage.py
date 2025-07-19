@@ -11,7 +11,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError
 
-from requests import networking_manager
+from divine_requests import networking_manager
 
 # ===== Type Definitions =====
 

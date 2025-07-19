@@ -12,9 +12,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import httpx
 import pytest
 
-from requests import logger
-from requests.core import NetworkingManager, TypedResponse
-from requests.core import networking_manager as global_networking_manager
+from divine_requests import logger
+from divine_requests.core import NetworkingManager, TypedResponse
+from divine_requests.core import networking_manager as global_networking_manager
 
 
 # Test data types
@@ -300,7 +300,7 @@ async def test_patch_method(networking_manager):
 @pytest.mark.anyio
 async def test_post_method_with_mock():
     """Test the post method."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.post("https://example.com", json={"data": "value"})
         mock_request.assert_called_once_with("POST", "https://example.com", expected_type=None, json={"data": "value"})
@@ -309,7 +309,7 @@ async def test_post_method_with_mock():
 @pytest.mark.anyio
 async def test_post_method_with_new_instance():
     """Test the post method with a new instance."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.post("https://example.com", json={"data": "value"})
         mock_request.assert_called_once_with("POST", "https://example.com", expected_type=None, json={"data": "value"})
@@ -318,7 +318,7 @@ async def test_post_method_with_new_instance():
 @pytest.mark.anyio
 async def test_put_method_with_mock():
     """Test the put method."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.put("https://example.com", json={"data": "value"})
         mock_request.assert_called_once_with("PUT", "https://example.com", expected_type=None, json={"data": "value"})
@@ -327,7 +327,7 @@ async def test_put_method_with_mock():
 @pytest.mark.anyio
 async def test_delete_method_with_mock():
     """Test the delete method."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.delete("https://example.com")
         mock_request.assert_called_once_with("DELETE", "https://example.com", expected_type=None)
@@ -336,7 +336,7 @@ async def test_delete_method_with_mock():
 @pytest.mark.anyio
 async def test_head_method_with_mock():
     """Test the head method."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.head("https://example.com")
         mock_request.assert_called_once_with("HEAD", "https://example.com", expected_type=None)
@@ -345,7 +345,7 @@ async def test_head_method_with_mock():
 @pytest.mark.anyio
 async def test_options_method_with_mock():
     """Test the options method."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.options("https://example.com")
         mock_request.assert_called_once_with("OPTIONS", "https://example.com", expected_type=None)
@@ -354,7 +354,7 @@ async def test_options_method_with_mock():
 @pytest.mark.anyio
 async def test_patch_method_with_mock():
     """Test the patch method."""
-    with patch("requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
+    with patch("divine_requests.core.NetworkingManager.request", new_callable=AsyncMock) as mock_request:
         manager = NetworkingManager()
         await manager.patch("https://example.com", json={"data": "value"})
         mock_request.assert_called_once_with("PATCH", "https://example.com", expected_type=None, json={"data": "value"})
