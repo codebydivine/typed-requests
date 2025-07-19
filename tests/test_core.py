@@ -5,8 +5,8 @@ This test suite covers all functionality of the NetworkingManager class,
 including HTTP methods, type validation, lifecycle management, and edge cases.
 """
 
-import unittest.mock as mock
 from typing import Any, TypedDict
+from unittest import mock
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx

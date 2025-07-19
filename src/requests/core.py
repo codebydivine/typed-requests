@@ -13,7 +13,7 @@ T = TypeVar("T")
 class TypedResponse(Generic[T]):
     """A wrapper for HTTP responses with type validation."""
 
-    __slots__ = ("response", "data")
+    __slots__ = ("data", "response")
 
     def __init__(self, response: httpx.Response, data: T):
         self.response = response
@@ -100,7 +100,7 @@ class NetworkingManager:
             )
             return response
         except Exception as e:
-            logger.error(f"Request to {url} failed: {str(e)}", exc_info=True)
+            logger.error(f"Request to {url} failed: {e!s}", exc_info=True)
             raise
 
     # HTTP method helpers - simplified without repetitive docstrings
