@@ -1,4 +1,4 @@
-from typing import Any, Generic, TypeVar
+from typing import Any
 
 import httpx
 from type_enforcer import ValidationError, enforce
@@ -7,10 +7,9 @@ from .logger import get_logger
 from .tls import TLS_CONTEXT_HTTP2
 
 logger = get_logger(__name__)
-T = TypeVar("T")
 
 
-class TypedResponse(Generic[T]):
+class TypedResponse[T]:
     """A wrapper for HTTP responses with type validation."""
 
     __slots__ = ("data", "response")
@@ -62,7 +61,7 @@ class NetworkingManager:
         else:
             logger.warning("HTTP client not initialized or already closed")
 
-    async def request(
+    async def request[T](
         self, method: str, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         if self._client is None:
@@ -104,43 +103,43 @@ class NetworkingManager:
             raise
 
     # HTTP method helpers - simplified without repetitive docstrings
-    async def get(
+    async def get[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a GET request with optional type validation."""
         return await self.request("GET", url, expected_type=expected_type, **kwargs)
 
-    async def post(
+    async def post[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a POST request with optional type validation."""
         return await self.request("POST", url, expected_type=expected_type, **kwargs)
 
-    async def put(
+    async def put[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a PUT request with optional type validation."""
         return await self.request("PUT", url, expected_type=expected_type, **kwargs)
 
-    async def delete(
+    async def delete[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a DELETE request with optional type validation."""
         return await self.request("DELETE", url, expected_type=expected_type, **kwargs)
 
-    async def head(
+    async def head[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a HEAD request with optional type validation."""
         return await self.request("HEAD", url, expected_type=expected_type, **kwargs)
 
-    async def options(
+    async def options[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make an OPTIONS request with optional type validation."""
         return await self.request("OPTIONS", url, expected_type=expected_type, **kwargs)
 
-    async def patch(
+    async def patch[T](
         self, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         """Make a PATCH request with optional type validation."""
