@@ -1,1 +1,1 @@
-include src/requests/py.typed
+include src/divine_requests/py.typed
