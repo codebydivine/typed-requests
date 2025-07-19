@@ -1,4 +1,4 @@
-from typing import Any, Generic, TypeVar, overload
+from typing import Any, TypeVar, overload
 
 import httpx
 from type_enforcer import ValidationError, enforce
@@ -11,7 +11,7 @@ logger = get_logger(__name__)
 T = TypeVar("T")
 
 
-class TypedResponse(Generic[T]):
+class TypedResponse[T]:
     """A wrapper for HTTP responses with type validation."""
 
     __slots__ = ("_data", "response")
