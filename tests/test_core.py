@@ -12,9 +12,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import httpx
 import pytest
 
-from divine_requests import logger
-from divine_requests.core import NetworkingManager, TypedResponse
-from divine_requests.core import networking_manager as global_networking_manager
+from typed_requests import logger
+from typed_requests.core import NetworkingManager, TypedResponse
+from typed_requests.core import networking_manager as global_networking_manager
 
 
 # Test data types

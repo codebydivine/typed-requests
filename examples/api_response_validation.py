@@ -1,7 +1,7 @@
 """
-Example of validating API responses using divine-requests library.
+Example of validating API responses using divine-typed-requests library.
 
-This example demonstrates how to use the divine-requests library to make
+This example demonstrates how to use the divine-typed-requests library to make
 HTTP requests with automatic type validation, particularly useful for
 complex API responses like those from DexScreener or other financial APIs.
 """
@@ -11,7 +11,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError, enforce
 
-from divine_requests import networking_manager
+from typed_requests import networking_manager
 
 # ===== Type Definitions for DexScreener API Response Validation =====
 # These TypedDicts define the expected structure and types of the API response.
@@ -112,7 +112,7 @@ class DexScreenerResponseDict(TypedDict):
 
 class DexScreenerClient:
     """
-    A client for interacting with DexScreener API using divine-requests
+    A client for interacting with DexScreener API using divine-typed-requests
     with automatic type validation.
     """
 

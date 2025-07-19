@@ -1,5 +1,5 @@
 """
-E-commerce API client example using divine-requests library.
+E-commerce API client example using divine-typed-requests library.
 
 This example demonstrates building a comprehensive e-commerce API client with:
 - Product catalog management
@@ -18,7 +18,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError
 
-from divine_requests import NetworkingManager
+from typed_requests import NetworkingManager
 
 # ===== E-commerce Type Definitions =====
 

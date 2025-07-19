@@ -1,5 +1,5 @@
 """
-Advanced API integration examples for divine-requests library.
+Advanced API integration examples for divine-typed-requests library.
 
 This example demonstrates real-world usage patterns including:
 - Complex nested type validation
@@ -16,7 +16,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError
 
-from divine_requests import NetworkingManager
+from typed_requests import NetworkingManager
 
 # ===== GitHub API Type Definitions =====
 

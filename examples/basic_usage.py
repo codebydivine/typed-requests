@@ -1,7 +1,7 @@
 """
-Basic usage examples for divine-requests library.
+Basic usage examples for divine-typed-requests library.
 
-This example demonstrates the fundamental features of the divine-requests library
+This example demonstrates the fundamental features of the divine-typed-requests library
 including making simple HTTP requests and basic type validation.
 """
 
@@ -11,7 +11,7 @@ from typing import Any, TypedDict
 
 from type_enforcer import ValidationError
 
-from divine_requests import networking_manager
+from typed_requests import networking_manager
 
 # ===== Type Definitions =====
 

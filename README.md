@@ -1,4 +1,4 @@
-# Divine Requests
+# Divine Typed Requests
 
 A type-safe HTTP client library for Python 3.13+ with validation and detailed error reporting.
 
@@ -36,7 +36,7 @@ Beyond validation, Divine Requests can convert compatible types (like dictionari
 ## Installation
 
 ```bash
-pip install divine-requests
+pip install divine-typed-requests
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ Import the networking manager and use it to make type-safe HTTP requests:
 
 ```python
 import asyncio
-from requests import networking_manager
+from typed_requests import networking_manager
 from type_enforcer import ValidationError
 from typing import List, Dict, Optional, TypedDict
 from dataclasses import dataclass
@@ -127,7 +127,7 @@ response = await networking_manager.patch("https://api.example.com/data/1", json
 response = await networking_manager.delete("https://api.example.com/data/1")
 
 # Using with custom NetworkingManager instance
-from requests import NetworkingManager
+from typed_requests import NetworkingManager
 
 async def main():
     manager = NetworkingManager()
@@ -186,8 +186,8 @@ A wrapper around httpx.Response that includes validated data.
 The networking manager can be configured with custom settings:
 
 ```python
-from requests import NetworkingManager
-from requests.tls import TLS_CONTEXT_HTTP2
+from typed_requests import NetworkingManager
+from typed_requests.tls import TLS_CONTEXT_HTTP2
 
 # Custom configuration
 manager = NetworkingManager(
@@ -211,7 +211,7 @@ The project maintains 100% test coverage, which helps ensure stability and corre
 
 ## Real-World Examples
 
-Check out the `examples/` directory for real-world use cases of divine-requests:
+Check out the `examples/` directory for real-world use cases of divine-typed-requests:
 
 ### API Response Validation
 

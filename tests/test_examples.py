@@ -19,7 +19,7 @@ import httpx
 import pytest
 from type_enforcer import ValidationError, enforce
 
-from divine_requests import NetworkingManager, networking_manager
+from typed_requests import NetworkingManager, networking_manager
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "examples"))
 

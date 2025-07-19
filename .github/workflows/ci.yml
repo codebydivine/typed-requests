@@ -41,7 +41,7 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest -v --cov=divine_requests --cov-report=term-missing --cov-report=xml --cov-report=html
+        pytest -v --cov=typed_requests --cov-report=term-missing --cov-report=xml --cov-report=html
 
     - name: Upload coverage to Codecov
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
@@ -91,7 +91,7 @@ jobs:
 
     - name: Run mypy
       run: |
-        mypy src/divine_requests --ignore-missing-imports
+        mypy src/typed_requests --ignore-missing-imports
 
     - name: Run bandit security scan
       run: |
