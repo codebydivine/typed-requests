@@ -68,7 +68,8 @@ class NetworkingManager:
             logger.info("NetworkingManager not started. Calling startup()")
             await self.startup()
 
-        assert self._client is not None, "Client should be initialized after startup"
+        if self._client is None:
+            raise RuntimeError("Client should be initialized after startup")
 
         try:
             # Extract and prepare headers
