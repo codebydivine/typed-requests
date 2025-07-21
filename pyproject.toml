@@ -22,7 +22,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "divine-type-enforcer==0.1.8",
+    "divine-type-enforcer==0.1.9",
     "httpx[http2]>=0.24.0",
 ]
 
