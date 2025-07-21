@@ -36,7 +36,11 @@ Beyond validation, Divine Requests can convert compatible types (like dictionari
 ## Installation
 
 ```bash
+# For end users
 pip install divine-typed-requests
+
+# For development
+poetry install
 ```
 
 ## Usage
