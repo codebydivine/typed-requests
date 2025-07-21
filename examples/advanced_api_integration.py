@@ -227,7 +227,7 @@ async def user_profile_example():
             print(f"Followers: {user['followers']}")
             print(f"Following: {user['following']}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Error fetching user profile: {e}")
 
 
@@ -251,7 +251,7 @@ async def repository_analysis_example():
                 print(f"   Description: {repo['description']}")
                 print()
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Error analyzing repositories: {e}")
 
 
@@ -274,7 +274,7 @@ async def issue_tracking_example():
                 print(f"   Labels: {[label['name'] for label in issue['labels']]}")
                 print()
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Error tracking issues: {e}")
 
 
@@ -298,7 +298,7 @@ async def search_and_analyze_example():
                 print(f"   Last updated: {repo['updated_at']}")
                 print()
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Error searching repositories: {e}")
 
 
@@ -324,7 +324,7 @@ async def error_handling_and_retry_example():
             data = await fetch_with_retry(client, f"{client.base_url}/users/octocat")
             print(f"Successfully fetched user data: {data['login']}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Failed after all retries: {e}")
 
 
@@ -372,7 +372,7 @@ async def data_transformation_example():
         print(f"  Primary Language: {summary.primary_language}")
         print(f"  Member since: {summary.join_date.strftime('%Y-%m-%d')}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error creating user summary: {e}")
 
 
@@ -395,7 +395,7 @@ async def main():
         print("\n" + "=" * 60)
         print("All advanced examples completed!")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error in main: {e}")
 
 

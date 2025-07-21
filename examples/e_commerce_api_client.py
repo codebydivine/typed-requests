@@ -567,7 +567,7 @@ async def product_browsing_example():
             print("3. View product details")
             print("4. Check inventory status")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Expected error with mock API: {type(e).__name__}")
 
 
@@ -584,7 +584,7 @@ async def shopping_cart_example():
             print("3. Remove items")
             print("4. Calculate totals with tax and shipping")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Expected error with mock API: {type(e).__name__}")
 
 
@@ -605,7 +605,7 @@ async def order_processing_example():
             print("7. Inventory updates")
             print("8. Shipping notifications")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Expected error with mock API: {type(e).__name__}")
 
 
@@ -675,7 +675,7 @@ async def main():
         print("\nNote: These examples demonstrate the API client structure and patterns.")
         print("In production, you would connect to a real e-commerce API endpoint.")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error in main: {e}")
 
 

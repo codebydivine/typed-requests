@@ -52,7 +52,7 @@ async def basic_get_request():
         print(f"Response Headers: {dict(response.headers)}")
         print(f"Response Body: {response.json()}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: {e}")
 
 
@@ -70,7 +70,7 @@ async def basic_post_request():
         print(f"Status Code: {response.status_code}")
         print(f"Posted Data: {response.json()['json']}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: {e}")
 
 
@@ -97,7 +97,7 @@ async def typed_get_request():
 
     except ValidationError as e:
         print(f"Validation Error: {e}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: {e}")
 
 
@@ -122,7 +122,7 @@ async def typed_post_with_validation():
 
     except ValidationError as e:
         print(f"Validation Error: {e}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: {e}")
 
 
@@ -138,7 +138,7 @@ async def error_handling_examples():
     try:
         await networking_manager.get("https://nonexistent-domain-12345.com")
         print("This should not print")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"   Caught network error: {type(e).__name__}: {e}")
 
     # Example 2: HTTP error (404)
@@ -146,7 +146,7 @@ async def error_handling_examples():
     try:
         await networking_manager.get("https://httpbin.org/status/404")
         print("This should not print")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"   Caught HTTP error: {type(e).__name__}: {e}")
 
     # Example 3: Validation error
@@ -160,7 +160,7 @@ async def error_handling_examples():
         print("This should not print")
     except ValidationError as e:
         print(f"   Caught validation error: {e}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"   Caught other error: {type(e).__name__}: {e}")
 
 
@@ -184,7 +184,7 @@ async def custom_headers_example():
         print(f"Status Code: {response.status_code}")
         print(f"Request Headers Received: {response.json()['headers']}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: {e}")
 
 
@@ -199,7 +199,7 @@ async def timeout_example():
             timeout=2.0,  # But we timeout after 2 seconds
         )
         print("This should not print")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Caught timeout error: {type(e).__name__}: {e}")
 
 

@@ -320,7 +320,7 @@ async def real_api_request_example():
             else:
                 print("   No pairs found")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"   Search request failed: {e}")
 
         # Example 2: Get specific token information
@@ -340,7 +340,7 @@ async def real_api_request_example():
             else:
                 print("   No pairs found for WETH")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"   Token request failed: {e}")
 
     finally:
@@ -365,8 +365,8 @@ async def error_handling_example():
             print(f"   Unexpected success: {result}")
         except ValidationError as e:
             print(f"   ✅ Validation error caught: {e}")
-        except Exception as e:
-            print(f"   ✅ Request error caught: {type(e).__name__}: {e}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   \u2705 Request error caught: {type(e).__name__}: {e}")
 
         # Example 2: Network timeout
         print("\n2. Testing with timeout...")
@@ -379,8 +379,8 @@ async def error_handling_example():
                 expected_type=DexScreenerResponseDict,
             )
             print(f"   Unexpected success: {response}")
-        except Exception as e:
-            print(f"   ✅ Timeout error caught: {type(e).__name__}: {e}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   \u2705 Timeout error caught: {type(e).__name__}: {e}")
 
     finally:
         await networking_manager.shutdown()
@@ -464,7 +464,7 @@ async def main():
         print("\n" + "=" * 65)
         print("All API response validation examples completed!")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error in main: {e}")
 
 
