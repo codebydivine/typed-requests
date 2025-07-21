@@ -37,9 +37,10 @@ pre-commit = "^4.2.0"
 ruff = "^0.12.4"
 mypy = "^1.17.0"
 bandit = { extras = ["toml"], version = "^1.8.6" }
-filelock = "^3.18.0"
-psutil = "^7.0.0"
-pydantic = "^2.11.7"
+filelock = "^3.16.1"
+psutil = "^6.1.1"
+pydantic = "^2.9.2"
+safety = "^3.6.0"
 
 [project.urls]
 Homepage = "https://github.com/divinescreener/typed-requests"
