@@ -1,4 +1,4 @@
-# Divine Typed Requests
+# Typed Requests
 
 A type-safe HTTP client library for Python 3.13+ with validation and detailed error reporting.
 

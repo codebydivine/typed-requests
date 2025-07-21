@@ -42,8 +42,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/codebydivine/typed-requests"
-Issues = "https://github.com/codebydivine/typed-requests/issues"
+Homepage = "https://github.com/divinescreener/typed-requests"
+Issues = "https://github.com/divinescreener/typed-requests/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
