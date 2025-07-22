@@ -278,14 +278,14 @@ files = [
 
 [[package]]
 name = "divine-type-enforcer"
-version = "0.1.10"
+version = "0.1.11"
 description = "A runtime type validation utility with detailed error reporting."
 optional = false
 python-versions = ">=3.13"
 groups = ["main"]
 files = [
-    {file = "divine_type_enforcer-0.1.10-py3-none-any.whl", hash = "sha256:08e03c4ae3af4db9ff1708ef6de1165356ef71eb870fb757c35da31de56c49f4"},
-    {file = "divine_type_enforcer-0.1.10.tar.gz", hash = "sha256:73b4d0bb9ba35d6318d819ba37d1826016122c9bf862f0141f5001c47f7eaa31"},
+    {file = "divine_type_enforcer-0.1.11-py3-none-any.whl", hash = "sha256:0aa4c03cbbd41fb3fb645ec3479d82dde9956b7ba64bef1927e28fe6d5d23018"},
+    {file = "divine_type_enforcer-0.1.11.tar.gz", hash = "sha256:879d46cf7d184e77b83651d29dda0c02ac248c1dd5b6953ed3cbc6073c0ee119"},
 ]
 
 [[package]]
@@ -998,4 +998,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "1a537ef530c01c36b3426ab1e28d2f8965d35d2a12fbf0d39e734373de61d446"
+content-hash = "2ff84613011e1df43b5e2b761dd0555dd6c477b6ca6bab2a6b64db9ff078a329"
