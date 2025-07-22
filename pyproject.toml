@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "divine-typed-requests"
-version = "0.1.27"
+version = "0.1.28"
 description = "A type-safe HTTP client library with validation and detailed error reporting."
 authors = ["DIVINE <admin@divine.sh>"]
 readme = "README.md"
