@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "divine-typed-requests"
-version = "0.1.30"
+version = "0.1.31"
 description = "A type-safe HTTP client library with validation and detailed error reporting."
 authors = [{name = "DIVINE", email = "admin@divine.sh"}]
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.13"
 dependencies = [
-    "divine-type-enforcer>=0.1.11",
+    "divine-type-enforcer>=0.1.12",
     "httpx[http2]>=0.28.1",
 ]
 
