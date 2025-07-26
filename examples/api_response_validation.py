@@ -6,9 +6,9 @@ HTTP requests with automatic type validation, particularly useful for
 complex API responses like those from DexScreener or other financial APIs.
 """
 
-import asyncio
 from typing import Any, TypedDict
 
+import anyio
 from type_enforcer import ValidationError, enforce
 
 from typed_requests import networking_manager
@@ -469,4 +469,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    anyio.run(main)

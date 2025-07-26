@@ -5,10 +5,10 @@ This example demonstrates the fundamental features of the divine-typed-requests 
 including making simple HTTP requests and basic type validation.
 """
 
-import asyncio
 from dataclasses import dataclass
 from typing import Any, TypedDict
 
+import anyio
 from type_enforcer import ValidationError
 
 from typed_requests import networking_manager
@@ -233,4 +233,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    anyio.run(main)

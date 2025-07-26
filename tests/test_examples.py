@@ -5,7 +5,7 @@ This test suite ensures that all examples work correctly and demonstrates
 the proper usage patterns for the divine-typed-requests library.
 """
 
-import asyncio
+# removed asyncio import - using anyio instead
 import importlib.util
 import os
 
@@ -219,11 +219,7 @@ class TestAdvancedPatterns:
                     if attempt == max_retries - 1:
                         raise
                     # Use anyio.sleep for compatibility with both asyncio and trio
-                    try:
-                        await anyio.sleep(0.1)  # Short delay for testing
-                    except ImportError:
-                        # Fallback to asyncio if anyio not available
-                        await asyncio.sleep(0.1)
+                    await anyio.sleep(0.1)  # Short delay for testing
 
         manager = NetworkingManager()
 

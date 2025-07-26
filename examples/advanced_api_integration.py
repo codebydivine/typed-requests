@@ -9,11 +9,11 @@ This example demonstrates real-world usage patterns including:
 - Retry logic
 """
 
-import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, TypedDict
 
+import anyio
 from type_enforcer import ValidationError
 
 from typed_requests import NetworkingManager
@@ -316,7 +316,7 @@ async def error_handling_and_retry_example():
                 print(f"Attempt {attempt + 1} failed: {e}")
                 if attempt == max_retries - 1:
                     raise
-                await asyncio.sleep(2**attempt)  # Exponential backoff
+                await anyio.sleep(2**attempt)  # Exponential backoff
 
     async with GitHubAPIClient() as client:
         try:
@@ -400,4 +400,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    anyio.run(main)

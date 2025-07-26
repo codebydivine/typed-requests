@@ -1,3 +1,4 @@
+import ssl
 from typing import Any, TypeVar, overload
 
 import httpx
@@ -47,13 +48,13 @@ class NetworkingManager:
     DEFAULT_TIMEOUT = 9
     DEFAULT_USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:130.0) Gecko/20100101 Firefox/130.0"
 
-    def __init__(self, tls_context=TLS_CONTEXT_HTTP2, enable_http2: bool = True):
+    def __init__(self, tls_context: ssl.SSLContext = TLS_CONTEXT_HTTP2, enable_http2: bool = True) -> None:
         """Initialize NetworkingManager with TLS context and HTTP/2 setting."""
         self._client: httpx.AsyncClient | None = None
         self._tls_context = tls_context
         self._enable_http2 = enable_http2
 
-    async def startup(self):
+    async def startup(self) -> None:
         """Initialize the persistent HTTP client."""
         if self._client is None:
             logger.info("Initializing persistent HTTP client")
@@ -61,7 +62,7 @@ class NetworkingManager:
         else:
             logger.warning("HTTP client already initialized")
 
-    async def shutdown(self):
+    async def shutdown(self) -> None:
         """Close the persistent HTTP client."""
         if self._client is not None:
             logger.info("Closing persistent HTTP client")

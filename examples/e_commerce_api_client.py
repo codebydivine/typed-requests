@@ -10,12 +10,12 @@ This example demonstrates building a comprehensive e-commerce API client with:
 - Inventory management
 """
 
-import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any, TypedDict
 
+import anyio
 from type_enforcer import ValidationError
 
 from typed_requests import NetworkingManager
@@ -680,4 +680,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    anyio.run(main)

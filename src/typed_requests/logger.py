@@ -12,27 +12,27 @@ class MockLogger:
     def __init__(self, name: str):
         self.name = name
 
-    def _log(self, level: str, msg: str, exc_info: bool = False):
+    def _log(self, level: str, msg: str, exc_info: bool = False) -> None:
         """Write log message to stdout."""
         if exc_info:
             sys.stdout.write(f"{level}:{self.name}:{msg}\n{traceback.format_exc()}\n")
         else:
             sys.stdout.write(f"{level}:{self.name}:{msg}\n")
 
-    def info(self, msg: str, exc_info: bool = False):
+    def info(self, msg: str, exc_info: bool = False) -> None:
         """Log info message."""
         self._log("INFO", msg, exc_info)
 
-    def debug(self, msg: str, exc_info: bool = False):
+    def debug(self, msg: str, exc_info: bool = False) -> None:
         """Log debug message if debug is enabled."""
         if ENABLE_DEBUG:
             self._log("DEBUG", msg, exc_info)
 
-    def error(self, msg: str, exc_info: bool = False):
+    def error(self, msg: str, exc_info: bool = False) -> None:
         """Log error message."""
         self._log("ERROR", msg, exc_info)
 
-    def warning(self, msg: str, exc_info: bool = False):
+    def warning(self, msg: str, exc_info: bool = False) -> None:
         """Log warning message."""
         self._log("WARNING", msg, exc_info)
 
