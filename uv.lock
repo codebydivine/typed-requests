@@ -121,16 +121,16 @@ wheels = [
 
 [[package]]
 name = "divine-type-enforcer"
-version = "0.1.12"
+version = "0.1.13"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/10/0e/8bd692e1292c3ddae16f247c010e34afee79bdb441605b9bd64fc854680d/divine_type_enforcer-0.1.12.tar.gz", hash = "sha256:54cc967952ff811bb9e2483cc068a87460d8969394ac1f4e1466f49b7d7011a9", size = 41127, upload-time = "2025-07-23T03:11:22.529Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/88/76/151829d209b746aae0975b86f0c08070ddceb15d6896437b309dd52b9ee0/divine_type_enforcer-0.1.13.tar.gz", hash = "sha256:59a26f47b919a76c3930b94eec28a13441cc09303241b4c58b4f406b2e877605", size = 43730, upload-time = "2025-07-26T16:09:21.329Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5b/2d/2795eb2968f6db2c4410fbbc3d3fabd1fea4aed6db096015f1ac169d2111/divine_type_enforcer-0.1.12-py3-none-any.whl", hash = "sha256:a19686d55815610c1e6f2ae6176b989b943374c4a4964b9251c2d95b3ce448e7", size = 11440, upload-time = "2025-07-23T03:11:21.299Z" },
+    { url = "https://files.pythonhosted.org/packages/2d/2b/bac4fe3544697162231d8c32c11043f2a140d88bfb4d4de81865d18cf907/divine_type_enforcer-0.1.13-py3-none-any.whl", hash = "sha256:b77d304232dba6c4b32a343b00e61e3ff0eb359045ade447c7e3f97a90ea2cb4", size = 11437, upload-time = "2025-07-26T16:09:20.1Z" },
 ]
 
 [[package]]
 name = "divine-typed-requests"
-version = "0.1.31"
+version = "0.1.32"
 source = { editable = "." }
 dependencies = [
     { name = "divine-type-enforcer" },
@@ -153,7 +153,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "divine-type-enforcer", specifier = ">=0.1.12" },
+    { name = "divine-type-enforcer", specifier = ">=0.1.13" },
     { name = "httpx", extras = ["http2"], specifier = ">=0.28.1" },
 ]
 
