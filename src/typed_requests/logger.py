@@ -1,42 +1,27 @@
-import sys
-import traceback
-
-ENABLE_DEBUG = False
+import structlog
+from structlog.stdlib import BoundLogger
 
 
-class MockLogger:
-    """Lightweight logger for divine-typed-requests."""
-
-    __slots__ = ("name",)
-
-    def __init__(self, name: str):
-        self.name = name
-
-    def _log(self, level: str, msg: str, exc_info: bool = False) -> None:
-        """Write log message to stdout."""
-        if exc_info:
-            sys.stdout.write(f"{level}:{self.name}:{msg}\n{traceback.format_exc()}\n")
-        else:
-            sys.stdout.write(f"{level}:{self.name}:{msg}\n")
-
-    def info(self, msg: str, exc_info: bool = False) -> None:
-        """Log info message."""
-        self._log("INFO", msg, exc_info)
-
-    def debug(self, msg: str, exc_info: bool = False) -> None:
-        """Log debug message if debug is enabled."""
-        if ENABLE_DEBUG:
-            self._log("DEBUG", msg, exc_info)
-
-    def error(self, msg: str, exc_info: bool = False) -> None:
-        """Log error message."""
-        self._log("ERROR", msg, exc_info)
-
-    def warning(self, msg: str, exc_info: bool = False) -> None:
-        """Log warning message."""
-        self._log("WARNING", msg, exc_info)
+def get_logger(name: str) -> BoundLogger:
+    """Get a structured logger for a specific module."""
+    return structlog.get_logger(name)
 
 
-def get_logger(name: str) -> MockLogger:
-    """Get a logger for a specific module."""
-    return MockLogger(name)
+# Configure structlog for JSON output with consistent formatting
+structlog.configure(
+    processors=[
+        structlog.stdlib.filter_by_level,
+        structlog.stdlib.add_logger_name,
+        structlog.stdlib.add_log_level,
+        structlog.stdlib.PositionalArgumentsFormatter(),
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.StackInfoRenderer(),
+        structlog.processors.format_exc_info,
+        structlog.processors.UnicodeDecoder(),
+        structlog.processors.JSONRenderer(),
+    ],
+    context_class=dict,
+    logger_factory=structlog.stdlib.LoggerFactory(),
+    wrapper_class=structlog.stdlib.BoundLogger,
+    cache_logger_on_first_use=True,
+)

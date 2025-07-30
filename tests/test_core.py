@@ -675,38 +675,20 @@ async def test_all_http_methods_comprehensive():
 
 
 def test_debug_logging_enabled():
-    """Test debug logging when ENABLE_DEBUG is True - covers logger.py lines 20-21"""
-    # Import the logger module to modify ENABLE_DEBUG
-
-    # Save original value
-    original_debug = logger.ENABLE_DEBUG
-
-    try:
-        # Enable debug logging
-        logger.ENABLE_DEBUG = True
-
-        # Create logger and test debug method
-        test_logger = logger.get_logger("test")
-
-        # This should now execute the debug logging code
-        test_logger.debug("Test debug message")
-
-    finally:
-        # Restore original value
-        logger.ENABLE_DEBUG = original_debug
-
-
-def test_debug_logging_disabled():
-    """Test debug logging when ENABLE_DEBUG is False - baseline test"""
-    # Import the logger module
-
-    # Ensure debug is disabled
-    logger.ENABLE_DEBUG = False
-
+    """Test debug logging with structlog."""
     # Create logger and test debug method
     test_logger = logger.get_logger("test")
 
-    # This should not execute the debug logging code
+    # This should execute without errors
+    test_logger.debug("Test debug message")
+
+
+def test_debug_logging_disabled():
+    """Test debug logging baseline test."""
+    # Create logger and test debug method
+    test_logger = logger.get_logger("test")
+
+    # This should execute without errors
     test_logger.debug("Test debug message")
 
 

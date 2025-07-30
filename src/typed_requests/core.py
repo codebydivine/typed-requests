@@ -35,10 +35,10 @@ class TypedResponse[T]:
             validated_data = enforce(response.json(), expected_type)
             return cls(response, validated_data)
         except ValidationError as e:
-            logger.error(f"Response validation failed: {e}")
+            logger.error("Response validation failed", error=str(e))
             raise
         except Exception as e:
-            logger.error(f"Error processing response: {e}", exc_info=True)
+            logger.error("Error processing response", error=str(e), exc_info=True)
             raise
 
 
@@ -92,7 +92,7 @@ class NetworkingManager:
             headers = kwargs.pop("headers", {})
             timeout = kwargs.pop("timeout", self.DEFAULT_TIMEOUT)
             kwargs.pop("proxy", None)  # Remove proxy if present
-            logger.info(f"Requesting {method} {url} with timeout {timeout}")
+            logger.info("Making HTTP request", method=method, url=url, timeout=timeout)
 
             # Prepare default headers
             default_headers = {
@@ -116,7 +116,7 @@ class NetworkingManager:
             )
             return response
         except Exception as e:
-            logger.error(f"Request to {url} failed: {e!s}", exc_info=True)
+            logger.error("HTTP request failed", url=url, error=str(e), exc_info=True)
             raise
 
     # HTTP method helpers - simplified without repetitive docstrings
