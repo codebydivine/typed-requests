@@ -53,6 +53,7 @@ class NetworkingManager:
         self._client: httpx.AsyncClient | None = None
         self._tls_context = tls_context
         self._enable_http2 = enable_http2
+        self._startup_logged = False
 
     async def startup(self) -> None:
         """Initialize the persistent HTTP client."""
@@ -81,7 +82,9 @@ class NetworkingManager:
         self, method: str, url: str, *, expected_type: type[T] | None = None, **kwargs: Any
     ) -> httpx.Response | TypedResponse[T]:
         if self._client is None:
-            logger.info("NetworkingManager not started. Calling startup()")
+            if not self._startup_logged:
+                logger.info("NetworkingManager not started. Calling startup()")
+                self._startup_logged = True
             await self.startup()
 
         if self._client is None:
