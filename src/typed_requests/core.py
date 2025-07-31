@@ -1,3 +1,4 @@
+import logging
 import ssl
 from typing import Any, TypeVar, overload
 
@@ -59,6 +60,11 @@ class NetworkingManager:
         """Initialize the persistent HTTP client."""
         if self._client is None:
             logger.info("Initializing persistent HTTP client")
+
+            # Silence httpx verbose logging
+            httpx_logger = logging.getLogger("httpx")
+            httpx_logger.setLevel(logging.WARNING)
+
             self._client = httpx.AsyncClient(http2=self._enable_http2, verify=self._tls_context)
         else:
             logger.warning("HTTP client already initialized")
@@ -95,7 +101,6 @@ class NetworkingManager:
             headers = kwargs.pop("headers", {})
             timeout = kwargs.pop("timeout", self.DEFAULT_TIMEOUT)
             kwargs.pop("proxy", None)  # Remove proxy if present
-            logger.info("Making HTTP request", method=method, url=url, timeout=timeout)
 
             # Prepare default headers
             default_headers = {
@@ -107,6 +112,18 @@ class NetworkingManager:
 
             # Make the request
             response = await self._client.request(method, url, timeout=timeout, headers=default_headers, **kwargs)
+
+            # Log with full URL (including query params) and status
+            full_url = str(response.url)
+            status_text = f"{response.status_code} {response.reason_phrase}"
+            logger.info(
+                "HTTP request completed",
+                method=method,
+                url=full_url,
+                status=status_text,
+                timeout=timeout
+            )
+
             response.raise_for_status()
 
             # Return typed response if expected_type is provided
